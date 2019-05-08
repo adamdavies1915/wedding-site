@@ -4,6 +4,31 @@
 	html5up.net | @ajlkn
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
+
+<script>
+	// get all iframes that were parsed before this tag
+	var iframes = document.getElementsByTagName("iframe");
+
+	for (let i = 0; i < iframes.length; i++) {
+		var url = iframes[i].getAttribute("src");
+		if (url.startsWith("https://docs.google.com/document/d/")) {
+			// create div and replace iframe
+			let d = document.createElement('div');
+			d.classList.add("embedded-doc"); // optional
+			iframes[i].parentElement.replaceChild(d, iframes[i]);
+
+			// CORS request
+			var xhr = new XMLHttpRequest();
+			xhr.open('GET', url, true);
+			xhr.onload = function() {
+				// display response
+				d.innerHTML = xhr.responseText;
+			};
+			xhr.send();
+		}
+	}
+</script>
+
 <html>
 	<head>
 		<title>Adam and Alys</title>
@@ -103,6 +128,10 @@
 					</section>
 
 				<!-- Two -->
+
+				<div class="iframe-container">
+					<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdOGd4kpxTDlsh0xs4AEOrkbT7RWMX4vrxWxqKYmM-B5F6zow/viewform?embedded=true" width="640" height="853" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
+				</div>
 
 					</section>
 					<section class="spotlight">
